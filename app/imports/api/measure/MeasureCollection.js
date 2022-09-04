@@ -4,6 +4,7 @@ import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { isValidMeasureType } from '../legislature/measureTypes';
 
 export const measurePublications = {
   measures: 'measures',
@@ -35,6 +36,9 @@ class MeasureCollection extends BaseCollection {
     // PRIMARY KEY (year, measureType, measureNumber) so they are unique
     if (this.isDefined({ year, measureType, measureNumber })) {
       return this.findDoc({ year, measureType, measureNumber })._id;
+    }
+    if (!isValidMeasureType(measureType)) {
+      throw new Meteor.Error(`${measureType} is an invalid Measure Type.`);
     }
     const docID = this._collection.insert({ year, measureType, measureNumber, lastUpdated, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, bitAppropriation, description, status, introducer, currentReferral, companion });
     return docID;

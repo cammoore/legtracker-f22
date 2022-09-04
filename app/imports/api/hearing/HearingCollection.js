@@ -4,6 +4,7 @@ import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { ROLE } from '../role/Role';
+import { isValidMeasureType } from '../legislature/measureTypes';
 
 export const hearingPublications = {
   hearings: 'hearings',
@@ -35,6 +36,9 @@ class HearingCollection extends BaseCollection {
     if (this.isDefined({ year, measureType, measureNumber, notice })) {
       return this.findDoc({ year, measureType, measureNumber, notice })._id;
     }
+    if (!isValidMeasureType(measureType)) {
+      throw new Meteor.Error(`${measureType} is an invalid Measure Type.`);
+    }
     const docID = this._collection.insert({ year, measureType, measureNumber, measureRelativeUrl, code, committee, lastUpdated, timestamp, datetime, description, room, notice, noticeUrl, noticePdfUrl });
     return docID;
   }
@@ -49,6 +53,9 @@ class HearingCollection extends BaseCollection {
       updateData.year = year;
     }
     if (measureType) {
+      if (!isValidMeasureType(measureType)) {
+        throw new Meteor.Error(`${measureType} is an invalid Measure Type.`);
+      }
       updateData.measureType = measureType;
     }
     if (_.isNumber(measureNumber)) {

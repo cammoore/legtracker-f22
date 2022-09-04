@@ -21,10 +21,10 @@ if (Meteor.isServer) {
     it('Can define and removeIt', function test1(done) {
       fc.assert(
         fc.property(
-          fc.lorem(2),
-          fc.integer(1, 10),
-          fc.lorem(1),
-          fc.integer(0, stuffConditions.length - 1),
+          fc.lorem({ maxCount: 2 }),
+          fc.integer({ min: 1, max: 10 }),
+          fc.lorem({ maxCount: 1 }),
+          fc.integer({ min: 0, max: stuffConditions.length - 1 }),
           (name, quantity, owner, choice) => {
             const condition = stuffConditions[choice];
             const docID = Stuffs.define({
@@ -69,9 +69,9 @@ if (Meteor.isServer) {
       // console.log(Stuffs.findDoc(docID));
       fc.assert(
         fc.property(
-          fc.lorem(2),
-          fc.integer(10),
-          fc.integer(0, stuffConditions.length - 1),
+          fc.lorem({ maxCount: 2 }),
+          fc.integer({ max: 10 }),
+          fc.integer({ min: 0, max: stuffConditions.length - 1 }),
           (newName, newQuantity, index) => {
             Stuffs.update(docID, {
               name: newName,
