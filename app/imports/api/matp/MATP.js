@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Stuffs } from '../stuff/StuffCollection';
 import { AdminProfiles } from '../user/AdminProfileCollection';
 import { UserProfiles } from '../user/UserProfileCollection';
+import { Hearings } from '../hearing/HearingCollection';
+import { Measures } from '../measure/MeasureCollection';
 
 class MATPClass {
   collections;
@@ -14,6 +16,8 @@ class MATPClass {
     // list of all the MATP collections
     this.collections = [
       AdminProfiles,
+      Hearings,
+      Measures,
       Stuffs,
       UserProfiles,
     ];
