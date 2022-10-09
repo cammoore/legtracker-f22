@@ -16,6 +16,7 @@ import NavBar from '../components/NavBar';
 import SignIn from '../pages/SignIn';
 import NotAuthorized from '../pages/NotAuthorized';
 import { ROLE } from '../../api/role/Role';
+import ManageDatabase from '../pages/ManageDatabase';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -32,6 +33,7 @@ const App = () => (
         <Route path="/add" element={<ProtectedRoute><AddStuff /></ProtectedRoute>} />
         <Route path="/edit/:_id" element={<ProtectedRoute><EditStuff /></ProtectedRoute>} />
         <Route path="/admin" element={<AdminProtectedRoute><ListStuffAdmin /></AdminProtectedRoute>} />
+        <Route path="/manage-database" element={<AdminProtectedRoute><ManageDatabase /></AdminProtectedRoute>} />
         <Route path="/notauthorized" element={<NotAuthorized />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -47,7 +49,7 @@ const App = () => (
  */
 const ProtectedRoute = ({ children }) => {
   const isLogged = Meteor.userId() !== null;
-  console.log('ProtectedRoute', isLogged);
+  // console.log('ProtectedRoute', isLogged);
   return isLogged ? children : <Navigate to="/signin" />;
 };
 
@@ -62,7 +64,7 @@ const AdminProtectedRoute = ({ children }) => {
     return <Navigate to="/signin" />;
   }
   const isAdmin = Roles.userIsInRole(Meteor.userId(), [ROLE.ADMIN]);
-  console.log('AdminProtectedRoute', isLogged, isAdmin);
+  // console.log('AdminProtectedRoute', isLogged, isAdmin);
   return (isLogged && isAdmin) ? children : <Navigate to="/notauthorized" />;
 };
 
