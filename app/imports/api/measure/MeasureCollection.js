@@ -40,7 +40,8 @@ class MeasureCollection extends BaseCollection {
     if (!isValidMeasureType(measureType)) {
       throw new Meteor.Error(`${measureType} is an invalid Measure Type.`);
     }
-    const docID = this._collection.insert({ year, measureType, measureNumber, lastUpdated, code, measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, bitAppropriation, description, status, introducer, currentReferral, companion });
+    const docID = this._collection.insert({ year, measureType, measureNumber, lastUpdated: new Date(lastUpdated * 1000), code,
+      measurePdfUrl, measureArchiveUrl, measureTitle, reportTitle, bitAppropriation, description, status, introducer, currentReferral, companion });
     return docID;
   }
 
